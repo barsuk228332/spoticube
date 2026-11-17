@@ -57,7 +57,18 @@ def default_download_dir() -> Path:
     return downloads / "Spoticube"
 
 
-ASSETS_DIR = Path(__file__).resolve().parent.parent / "assets"
+def _assets_dir() -> Path:
+    """Где искать значки: переменная окружения, исходники или системный путь."""
+    override = os.environ.get("SPOTICUBE_ASSETS")
+    if override:
+        return Path(override)
+    bundled = Path(__file__).resolve().parent.parent / "assets"
+    if bundled.is_dir():
+        return bundled
+    return Path("/usr/share/spoticube/assets")
+
+
+ASSETS_DIR = _assets_dir()
 
 
 def icon_file() -> Path:

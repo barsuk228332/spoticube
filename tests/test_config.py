@@ -47,6 +47,20 @@ def test_default_download_dir_falls_back_to_home(tmp_path, monkeypatch):
     assert config.default_download_dir() == tmp_path / "Spoticube"
 
 
+def test_assets_dir_honours_env_override(tmp_path, monkeypatch):
+    monkeypatch.setenv("SPOTICUBE_ASSETS", str(tmp_path))
+
+    assert config._assets_dir() == tmp_path
+
+
+def test_assets_dir_falls_back_to_system_path(tmp_path, monkeypatch):
+    monkeypatch.delenv("SPOTICUBE_ASSETS", raising=False)
+    # имитируем установку из пакета: рядом с модулем нет папки assets
+    monkeypatch.setattr(config, "__file__", str(tmp_path / "site-packages" / "spoticube" / "config.py"))
+
+    assert config._assets_dir() == pathlib.Path("/usr/share/spoticube/assets")
+
+
 def test_save_bytes_atomic_writes_file(tmp_path):
     target = tmp_path / "nested" / "thumb.img"
 
