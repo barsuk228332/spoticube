@@ -93,7 +93,7 @@ class ThumbnailWorker(QRunnable):
             return
 
         try:
-            cache_path.write_bytes(data)
+            config.save_bytes_atomic(cache_path, data)
         except OSError:
             pass
         _safe_emit(self.signals.finished, data)

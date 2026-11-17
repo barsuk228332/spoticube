@@ -32,6 +32,22 @@ def thumb_cache_path(url: str) -> Path:
     return thumb_cache_dir() / f"{digest}.img"
 
 
+def save_bytes_atomic(path: Path, data: bytes) -> None:
+    """Пишет файл через временный и подменяет его целиком.
+
+    Так в кэше не остаётся «половинчатый» файл, если процесс прервётся
+    посреди записи: до ``os.replace`` старое содержимое остаётся нетронутым.
+    """
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_name(f"{path.name}.{os.getpid()}.tmp")
+    try:
+        tmp.write_bytes(data)
+        os.replace(tmp, path)
+    except BaseException:
+        tmp.unlink(missing_ok=True)
+        raise
+
+
 def default_download_dir() -> Path:
     downloads = Path.home() / "Загрузки"
     if not downloads.is_dir():
