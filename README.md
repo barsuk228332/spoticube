@@ -49,11 +49,24 @@
 
 ## Установка
 
+Рекомендуется виртуальное окружение внутри проекта — зависимости не смешиваются
+с системными:
+
 ```bash
 git clone https://github.com/barsuk228332/spoticube.git
 cd spoticube
+python3 -m venv .venv
+.venv/bin/pip install -r requirements.txt
+```
+
+Если venv не нужен, те же зависимости можно поставить в пользовательский каталог:
+
+```bash
 python3 -m pip install --user -r requirements.txt
 ```
+
+Зависимость — `PySide6-Essentials`: только нужные модули Qt, без WebEngine и
+Charts, которые вместе весят втрое больше.
 
 Отдельно поставьте `ffmpeg`:
 
@@ -65,8 +78,10 @@ sudo dnf install ffmpeg      # Fedora
 ## Запуск
 
 ```bash
-python3 main.py
+.venv/bin/python main.py
 ```
+
+Если ставили без venv — `python3 main.py`.
 
 Папка загрузок по умолчанию — `~/Загрузки/Spoticube`, а если в системе нет каталога
 «Загрузки» — `~/Downloads/Spoticube`. Создаётся автоматически, меняется кнопкой «Папка…».
@@ -74,8 +89,8 @@ python3 main.py
 ## Тесты
 
 ```bash
-python3 -m pip install --user -r requirements-dev.txt
-python3 -m pytest
+.venv/bin/pip install -r requirements-dev.txt
+.venv/bin/python -m pytest
 ```
 
 Тесты не ходят в сеть и не требуют дисплея: проверяются форматирование,
