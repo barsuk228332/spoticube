@@ -43,19 +43,19 @@
 ## Требования
 
 - **Python 3.11+**
-- **PySide6** и **yt-dlp** (ставятся из `requirements.txt`)
+- **PySide6** и **yt-dlp** — ставятся из `requirements.txt`
 - **ffmpeg** — желательно: без него нет MP3-конвертации и склейки видео+аудио
   (тогда скачивается готовый файл: `.m4a` или однопоточный `.mp4`)
 
 ## Установка
 
 ```bash
-git clone https://github.com/<ваш-логин>/spoticube.git
+git clone https://github.com/barsuk228332/spoticube.git
 cd spoticube
 python3 -m pip install --user -r requirements.txt
 ```
 
-`ffmpeg`:
+Отдельно поставьте `ffmpeg`:
 
 ```bash
 sudo apt install ffmpeg      # Debian/Ubuntu
@@ -68,8 +68,8 @@ sudo dnf install ffmpeg      # Fedora
 python3 main.py
 ```
 
-Папка загрузок по умолчанию — `~/Загрузки/Spoticube` (создаётся автоматически),
-меняется кнопкой «Папка…».
+Папка загрузок по умолчанию — `~/Загрузки/Spoticube`, а если в системе нет каталога
+«Загрузки» — `~/Downloads/Spoticube`. Создаётся автоматически, меняется кнопкой «Папка…».
 
 ## Значок
 
@@ -82,18 +82,19 @@ python3 tools/make_icon.py   # assets/icons/*.png, spoticube.png, spoticube.ico
 ## Структура
 
 ```
-main.py                      точка входа
-spoticube/config.py          пути, кэш превью, User-Agent
-spoticube/models.py          VideoItem, SearchResult
-spoticube/yt.py              поиск и опции yt-dlp (форматы, кодеки)
-spoticube/workers.py         фоновые задачи: поиск, превью, загрузка
-spoticube/util.py            форматирование длительности/размера/скорости
-spoticube/ui/theme.py        тёмная тема (QSS)
-spoticube/ui/cards.py        карточка результата, предпросмотр, строка загрузки
-spoticube/ui/main_window.py  главное окно и логика
-tools/make_icon.py           генерация значков из SVG
-tools/render_preview.py      рендер промо-превью в docs/
-assets/                      значок: SVG, PNG, ICO, набор размеров
+main.py                       точка входа
+spoticube/config.py           пути, кэш превью, User-Agent
+spoticube/models.py           VideoItem, SearchResult
+spoticube/yt.py               поиск и опции yt-dlp (форматы, кодеки)
+spoticube/workers.py          фоновые задачи: поиск, превью, загрузка
+spoticube/util.py             форматирование длительности/размера/скорости
+spoticube/ui/theme.py         тёмная тема (QSS)
+spoticube/ui/cards.py         карточка результата, предпросмотр, строка загрузки
+spoticube/ui/main_window.py   главное окно и логика
+tools/make_icon.py            генерация значков из SVG
+tools/render_preview.py       рендер промо-превью в docs/
+assets/                       значок: SVG, PNG, ICO, набор размеров
+docs/                         готовое превью интерфейса для README
 ```
 
 ## Как это работает
@@ -109,8 +110,7 @@ assets/                      значок: SVG, PNG, ICO, набор разме�
 - YouTube периодически меняет подписи и защиты — если что-то перестало качаться,
   обновите `yt-dlp`: `python3 -m pip install --user -U yt-dlp`.
 - Живые трансляции и очень длинные видео качаются долго, превью может отсутствовать.
-- Тесты пока не автоматизированы: CI проверяет синтаксис и сборку интерфейса
-  в offscreen-режиме.
+- Автотестов пока нет: CI проверяет синтаксис и сборку интерфейса в offscreen-режиме.
 
 ## Дисклеймер
 
