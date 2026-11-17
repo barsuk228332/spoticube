@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Spoticube">
+  <title>Spoticube</title>
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1b2431"/>
+      <stop offset="1" stop-color="#0a0e14"/>
+    </linearGradient>
+    <linearGradient id="disc" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#57ef9b"/>
+      <stop offset="1" stop-color="#2bbd6c"/>
+    </linearGradient>
+    <linearGradient id="bar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#3ddc84" stop-opacity="0.45"/>
+      <stop offset="0.5" stop-color="#57ef9b"/>
+      <stop offset="1" stop-color="#3ddc84" stop-opacity="0.45"/>
+    </linearGradient>
+  </defs>
+
+  <!-- плитка -->
+  <rect x="16" y="16" width="480" height="480" rx="116" fill="url(#tile)"/>
+  <rect x="16" y="16" width="480" height="480" rx="116" fill="none" stroke="#2d3846" stroke-width="8"/>
+
+  <!-- диск с play -->
+  <circle cx="256" cy="232" r="142" fill="url(#disc)"/>
+  <path d="M228 168 L352 232 L228 296 Z" fill="#0a0e14"/>
+
+  <!-- полоса загрузки -->
+  <rect x="186" y="406" width="140" height="24" rx="12" fill="url(#bar)"/>
+</svg>

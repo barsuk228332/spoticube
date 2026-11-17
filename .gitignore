@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Виртуальные окружения
+.venv/
+venv/
+env/
+
+# Инструменты
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.pyre/
+.idea/
+.vscode/
+
+# Системный мусор
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.part
+*.ytdl
+
+# Локальные загрузки и кэш превью
+downloads/
+.cache/

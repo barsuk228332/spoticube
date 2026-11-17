@@ -1,0 +1,119 @@
+# Spoticube
+
+<p align="center">
+  <img src="assets/spoticube.png" width="110" alt="Spoticube">
+</p>
+
+<p align="center">
+  Графический загрузчик видео и аудио с YouTube на PySide6.<br>
+  Поиск, превью карточками, очередь загрузок с прогрессом и отменой.
+</p>
+
+<p align="center">
+  <img alt="Python" src="https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white">
+  <img alt="PySide6" src="https://img.shields.io/badge/PySide6-6.6%2B-41CD52?logo=qt&logoColor=white">
+  <img alt="yt-dlp" src="https://img.shields.io/badge/downloads-yt--dlp-FF0000?logo=youtube&logoColor=white">
+  <img alt="License" src="https://img.shields.io/badge/license-MIT-3ddc84">
+</p>
+
+![Интерфейс Spoticube](docs/spoticube-preview.png)
+
+## Возможности
+
+- **Поиск по YouTube** без API-ключей (через `yt-dlp`), сетка карточек с превью.
+- **Вставка ссылки**: `youtube.com/watch?v=…`, `youtu.be/…`, плейлист или канал — покажет список.
+- **Превью**: миниатюры в карточках и крупная панель предпросмотра справа
+  (название, канал, длительность, просмотры).
+- **Скачивание**:
+  - видео — MP4 с выбором качества (лучшее / 1080p / 720p / 480p / 360p);
+  - аудио — MP3 с выбором битрейта (128 / 192 / 320 kbps).
+- **Очередь загрузок**: прогресс, скорость, ETA, отмена, кнопка «Открыть» папку.
+- **Скачать всё / плейлист целиком** — одна кнопка ставит в очередь все найденные видео
+  (для плейлиста — до 100 штук).
+- **Drag & drop**: брось ссылку в окно — сразу начнётся разбор.
+- **Скелетоны превью**: пока картинка грузится, по миниатюре бежит мягкая волна.
+- **Плавный ховер** карточек с анимированной тенью.
+- **Счётчик в заголовке окна**: сколько загрузок идёт и средний процент.
+- Настройки (папка, режим, качество) запоминаются между запусками.
+- Тёмная тема, адаптивная сетка.
+
+## Требования
+
+- **Python 3.11+**
+- **PySide6** и **yt-dlp** (ставятся из `requirements.txt`)
+- **ffmpeg** — желательно: без него нет MP3-конвертации и склейки видео+аудио
+  (тогда скачивается готовый файл: `.m4a` или однопоточный `.mp4`)
+
+## Установка
+
+```bash
+git clone https://github.com/<ваш-логин>/spoticube.git
+cd spoticube
+python3 -m pip install --user -r requirements.txt
+```
+
+`ffmpeg`:
+
+```bash
+sudo apt install ffmpeg      # Debian/Ubuntu
+sudo dnf install ffmpeg      # Fedora
+```
+
+## Запуск
+
+```bash
+python3 main.py
+```
+
+Папка загрузок по умолчанию — `~/Загрузки/Spoticube` (создаётся автоматически),
+меняется кнопкой «Папка…».
+
+## Значок
+
+Значок нарисован кодом: `assets/spoticube.svg` → PNG всех размеров + `.ico`.
+
+```bash
+python3 tools/make_icon.py   # assets/icons/*.png, spoticube.png, spoticube.ico
+```
+
+## Структура
+
+```
+main.py                      точка входа
+spoticube/config.py          пути, кэш превью, User-Agent
+spoticube/models.py          VideoItem, SearchResult
+spoticube/yt.py              поиск и опции yt-dlp (форматы, кодеки)
+spoticube/workers.py         фоновые задачи: поиск, превью, загрузка
+spoticube/util.py            форматирование длительности/размера/скорости
+spoticube/ui/theme.py        тёмная тема (QSS)
+spoticube/ui/cards.py        карточка результата, предпросмотр, строка загрузки
+spoticube/ui/main_window.py  главное окно и логика
+tools/make_icon.py           генерация значков из SVG
+tools/render_preview.py      рендер промо-превью в docs/
+assets/                      значок: SVG, PNG, ICO, набор размеров
+```
+
+## Как это работает
+
+- Поиск идёт через `ytsearchN:` в «плоском» режиме — быстро, без загрузки форматов.
+- Загрузка выполняется в `QThreadPool`, прогресс приходит из `progress_hooks` yt-dlp.
+- Отмена выставляет флаг: хук поднимает исключение, после чего удаляются
+  недокачанные `.part`-файлы.
+- Превью кэшируются в `~/.cache/spoticube/thumbs/`.
+
+## Ограничения
+
+- YouTube периодически меняет подписи и защиты — если что-то перестало качаться,
+  обновите `yt-dlp`: `python3 -m pip install --user -U yt-dlp`.
+- Живые трансляции и очень длинные видео качаются долго, превью может отсутствовать.
+- Тесты пока не автоматизированы: CI проверяет синтаксис и сборку интерфейса
+  в offscreen-режиме.
+
+## Дисклеймер
+
+Проект учебный. Скачивайте только тот контент, на который у вас есть право,
+и соблюдайте [условия использования YouTube](https://www.youtube.com/t/terms).
+
+## Лицензия
+
+[MIT](LICENSE)
