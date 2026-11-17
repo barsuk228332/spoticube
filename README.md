@@ -14,6 +14,9 @@
   <img alt="PySide6" src="https://img.shields.io/badge/PySide6-6.6%2B-41CD52?logo=qt&logoColor=white">
   <img alt="yt-dlp" src="https://img.shields.io/badge/downloads-yt--dlp-FF0000?logo=youtube&logoColor=white">
   <img alt="License" src="https://img.shields.io/badge/license-MIT-3ddc84">
+  <a href="https://github.com/barsuk228332/spoticube/actions/workflows/ci.yml">
+    <img alt="CI" src="https://github.com/barsuk228332/spoticube/actions/workflows/ci.yml/badge.svg">
+  </a>
 </p>
 
 ![Интерфейс Spoticube](docs/spoticube-preview.png)
