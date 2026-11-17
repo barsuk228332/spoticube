@@ -23,10 +23,13 @@ jobs:
       - name: Установка зависимостей
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -r requirements.txt
+          python -m pip install -r requirements-dev.txt
 
       - name: Проверка синтаксиса
-        run: python -m compileall -q main.py spoticube tools
+        run: python -m compileall -q main.py spoticube tools tests
+
+      - name: Тесты
+        run: python -m pytest -q
 
       - name: Системные библиотеки для Qt
         run: |
