@@ -95,8 +95,20 @@ sudo dnf install /tmp/opencode/rpmbuild/RPMS/noarch/spoticube-*.rpm
 - код в `site-packages`, иконки всех размеров в `hicolor` и `spoticube.desktop`;
 - PNG/SVG в `/usr/share/spoticube/assets` — оттуда их берёт само приложение.
 
-Зависимости: `python3-pyside6` и `yt-dlp`; `ffmpeg` подключён как `Recommends`,
-поэтому ставится не обязательно.
+Зависимости: `python3-pyside6` (есть в репозиториях Fedora) и `hicolor-icon-theme`.
+`yt-dlp` подключён как `Suggests` — dnf его не устанавливает, чтобы не появлялся
+второй экземпляр рядом с pip-ным. Ставьте свежий через pip:
+
+```bash
+python3 -m pip install --user -U yt-dlp
+```
+
+`ffmpeg` подключён как `Recommends`. Удалять пакет лучше так, чтобы dnf не снёс
+заодно Qt:
+
+```bash
+sudo dnf remove spoticube --no-autoremove
+```
 
 Пакет привязан к версии Python машины сборки. Для выкладки в Fedora его надо
 перевести на `%pyproject_wheel` (пакеты `python3-devel` и `pyproject-rpm-macros`).

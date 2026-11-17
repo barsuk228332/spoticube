@@ -17,6 +17,16 @@ def main() -> int:
         )
         return 1
 
+    try:
+        import yt_dlp  # noqa: F401
+    except ImportError:
+        print(
+            "Не установлен yt-dlp. Установите зависимости:\n"
+            "  python3 -m pip install --user yt-dlp",
+            file=sys.stderr,
+        )
+        return 1
+
     from . import config
     from .ui.main_window import MainWindow
     from .ui.theme import apply_theme

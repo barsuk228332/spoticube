@@ -11,8 +11,8 @@ BuildArch:      noarch
 
 Requires:       python3
 Requires:       python3-pyside6
-Requires:       yt-dlp
 Requires:       hicolor-icon-theme
+Suggests:       yt-dlp
 Recommends:     ffmpeg
 
 %description
