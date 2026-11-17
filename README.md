@@ -81,6 +81,26 @@ python3 -m pytest
 Тесты не ходят в сеть и не требуют дисплея: проверяются форматирование,
 разбор ответов `yt-dlp`, выбор форматов и запись кэша превью.
 
+## Сборка RPM-пакета
+
+```bash
+./packaging/build-rpm.sh
+sudo dnf install /tmp/opencode/rpmbuild/RPMS/noarch/spoticube-*.rpm
+```
+
+Скрипт собирает пакет из текущего рабочего дерева в `/tmp/opencode/rpmbuild`
+и не трогает системные каталоги. Что попадает внутрь:
+
+- `/usr/bin/spoticube` — команда запуска;
+- код в `site-packages`, иконки всех размеров в `hicolor` и `spoticube.desktop`;
+- PNG/SVG в `/usr/share/spoticube/assets` — оттуда их берёт само приложение.
+
+Зависимости: `python3-pyside6` и `yt-dlp`; `ffmpeg` подключён как `Recommends`,
+поэтому ставится не обязательно.
+
+Пакет привязан к версии Python машины сборки. Для выкладки в Fedora его надо
+перевести на `%pyproject_wheel` (пакеты `python3-devel` и `pyproject-rpm-macros`).
+
 ## Значок
 
 Значок нарисован кодом: `assets/spoticube.svg` → PNG всех размеров + `.ico`.
@@ -92,7 +112,8 @@ python3 tools/make_icon.py   # assets/icons/*.png, spoticube.png, spoticube.ico
 ## Структура
 
 ```
-main.py                       точка входа
+main.py                       точка входа (тонкая обёртка)
+spoticube/app.py              запуск приложения: окно, тема, значок
 spoticube/config.py           пути, кэш превью, User-Agent
 spoticube/models.py           VideoItem, SearchResult
 spoticube/yt.py               поиск и опции yt-dlp (форматы, кодеки)
@@ -104,6 +125,7 @@ spoticube/ui/main_window.py   главное окно и логика
 tools/make_icon.py            генерация значков из SVG
 tools/render_preview.py       рендер промо-превью в docs/
 tests/                        тесты (pytest, без сети и без дисплея)
+packaging/                    spec-файл, .desktop и скрипт сборки RPM
 assets/                       значок: SVG, PNG, ICO, набор размеров
 docs/                         готовое превью интерфейса для README
 ```

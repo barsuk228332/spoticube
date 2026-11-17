@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Spoticube
+GenericName=YouTube Downloader
+Comment=Download video and audio from YouTube
+Comment[ru]=Скачивание видео и аудио с YouTube
+Exec=spoticube
+Icon=spoticube
+Terminal=false
+Categories=AudioVideo;
+Keywords=youtube;download;video;audio;mp3;mp4;yt-dlp;
